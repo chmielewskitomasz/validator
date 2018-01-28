@@ -65,7 +65,7 @@ class StdValidator implements Validator
                 continue;
             }
 
-            if (!isset($data[$field->fieldName()])) {
+            if (!array_key_exists($field->fieldName(), $data)) {
                 if (!$field->required()) {
                     continue;
                 }
