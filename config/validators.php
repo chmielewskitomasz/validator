@@ -5,5 +5,6 @@ declare(strict_types = 1);
 return [
     'Digits' => \Hop\Validator\Validator\Digits::class,
     'Range' => \Hop\Validator\Validator\Range::class,
-    'Length' => \Hop\Validator\Validator\Length::class
+    'Length' => \Hop\Validator\Validator\Length::class,
+    'NotEmpty' => \Hop\Validator\Validator\NotEmpty::class
 ];
