@@ -159,10 +159,7 @@ class StdValidatorTest extends TestCase
     {
         $strategyMock = $this->createMock(Strategy::class);
         $field = new Field('param', true, function (array $data) {
-            if ($data['exclude']) {
-                return false;
-            }
-            return true;
+            return !isset($data['exclude']);
         });
         $field->registerValidator('passes', null);
         $strategyMock->method('getFields')
@@ -191,10 +188,7 @@ class StdValidatorTest extends TestCase
     {
         $strategyMock = $this->createMock(Strategy::class);
         $field = new Field('param', true, function (array $data) {
-            if ($data['exclude']) {
-                return false;
-            }
-            return true;
+            return !isset($data['exclude']);
         });
         $field->registerValidator('passes', null);
         $strategyMock->method('getFields')
@@ -210,7 +204,7 @@ class StdValidatorTest extends TestCase
             ->willReturn('Error');
 
         $input = [
-            'exclude' => false
+
         ];
 
         $this->validator->registerRuleValidator('passes', $ruleValidatorMock);

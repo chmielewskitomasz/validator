@@ -27,6 +27,18 @@ class StdValidator implements Validator
         $this->validators[$validatorName] = $validator;
     }
 
+    public static function fromConfig(array $config): self
+    {
+        $validator = new static;
+        foreach ($config as $validatorName => $validatorClassName) {
+            if (!\class_exists($validatorClassName)) {
+                throw new \InvalidArgumentException(sprintf('Validator class %s does not exist', $validatorClassName));
+            }
+            $validator->registerRuleValidator($validatorName, new $validatorClassName);
+        }
+        return $validator;
+    }
+
     /**
      * @param array $data
      * @param Strategy $strategy

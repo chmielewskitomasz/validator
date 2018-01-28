@@ -4,20 +4,20 @@ declare(strict_types = 1);
 
 namespace Test\Validator;
 
-use Hop\Validator\Validator\Length;
+use Hop\Validator\Validator\Range;
 use Hop\Validator\Validator\RuleValidator;
 use PHPUnit\Framework\TestCase;
 
-class LengthTest extends TestCase
+class RangeTest extends TestCase
 {
     /**
-     * @var Length
+     * @var Range
      */
     private $length;
 
     public function setUp()
     {
-        $this->length = new Length();
+        $this->length = new Range();
     }
 
     public function test_instanceOf()
@@ -52,13 +52,13 @@ class LengthTest extends TestCase
     public function test_minGreaterThanMax()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->length->isValid('abcd', [
+        $this->length->isValid(3, [
             'min' => 4,
             'max' => 3
         ]);
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->length->getMessage('abcd', [
+        $this->length->getMessage(3, [
             'min' => 4,
             'max' => 3
         ]);
@@ -66,45 +66,55 @@ class LengthTest extends TestCase
 
     public function test_valid()
     {
-        $this->assertTrue($this->length->isValid('abc', [
+        $this->assertTrue($this->length->isValid(3, [
             'min' => 2,
             'max' => 4
         ]));
 
-        $this->assertNull($this->length->getMessage('abc', [
+        $this->assertNull($this->length->getMessage(3, [
             'min' => 2,
             'max' => 4
         ]));
 
-        $this->assertTrue($this->length->isValid('abc', [
+        $this->assertTrue($this->length->isValid(3, [
             'min' => 3,
             'max' => 3
         ]));
 
-        $this->assertNull($this->length->getMessage('abc', [
+        $this->assertNull($this->length->getMessage(3, [
             'min' => 3,
             'max' => 3
+        ]));
+
+        $this->assertTrue($this->length->isValid(3.3, [
+            'min' => 3.1,
+            'max' => 3.4
+        ]));
+
+        $this->assertNull($this->length->getMessage(3.3, [
+            'min' => 3.1,
+            'max' => 3.4
         ]));
     }
 
     public function test_tooLow()
     {
-        $this->assertFalse($this->length->isValid('abc', [
+        $this->assertFalse($this->length->isValid(3, [
             'min' => 4
         ]));
 
-        $this->assertNotNull($this->length->getMessage('abc', [
+        $this->assertNotNull($this->length->getMessage(3, [
             'min' => 4
         ]));
     }
 
     public function test_tooHigh()
     {
-        $this->assertFalse($this->length->isValid('abcde', [
+        $this->assertFalse($this->length->isValid(5, [
             'max' => 4
         ]));
 
-        $this->assertNotNull($this->length->getMessage('abcde', [
+        $this->assertNotNull($this->length->getMessage(5, [
             'max' => 4
         ]));
     }
