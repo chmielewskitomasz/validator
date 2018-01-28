@@ -18,7 +18,7 @@ interface Validator
     /**
      * @param array $data
      * @param Strategy $strategy
-     * @return Message[]
+     * @return Messages
      */
-    public function getMessages(array $data, Strategy $strategy): array;
+    public function getMessages(array $data, Strategy $strategy): Messages;
 }

@@ -53,12 +53,12 @@ class StdValidator implements Validator
     /**
      * @param array $data
      * @param Strategy $strategy
-     * @return Message[]
+     * @return Messages
      * @throws \InvalidArgumentException
      */
-    public function getMessages(array $data, Strategy $strategy): array
+    public function getMessages(array $data, Strategy $strategy): Messages
     {
-        $messages = [];
+        $messages = new Messages;
 
         foreach ($strategy->getFields() as $field) {
             if ($field->condition() !== null && !$field->condition()($data)) {
@@ -69,13 +69,13 @@ class StdValidator implements Validator
                 if (!$field->required()) {
                     continue;
                 }
-                $messages[] = new Message('NotEmpty', 'Value is required and cannot be empty');
+                $messages->attachMessage($field->fieldName(), new Message('NotEmpty', 'Value is required and cannot be empty'));
             }
 
             foreach ($field->validators() as $validatorName => $options) {
                 $ruleValidator = $this->getRuleValidator($validatorName);
                 if (!$ruleValidator->isValid($data[$field->fieldName()], $options)) {
-                    $messages[] = new Message($validatorName, $ruleValidator->getMessage($data[$field->fieldName()], $options));
+                    $messages->attachMessage($field->fieldName(), new Message($validatorName, $ruleValidator->getMessage($data[$field->fieldName()], $options)));
                 }
             }
         }
