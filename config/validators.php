@@ -6,5 +6,7 @@ return [
     'Digits' => \Hop\Validator\Validator\Digits::class,
     'Range' => \Hop\Validator\Validator\Range::class,
     'Length' => \Hop\Validator\Validator\Length::class,
-    'NotEmpty' => \Hop\Validator\Validator\NotEmpty::class
+    'NotEmpty' => \Hop\Validator\Validator\NotEmpty::class,
+    'Email' => \Hop\Validator\Validator\Email::class,
+    'Uuid' => \Hop\Validator\Validator\Uuid::class,
 ];
