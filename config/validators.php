@@ -9,4 +9,5 @@ return [
     'NotEmpty' => \Hop\Validator\Validator\NotEmpty::class,
     'Email' => \Hop\Validator\Validator\Email::class,
     'Uuid' => \Hop\Validator\Validator\Uuid::class,
+    'Nip' => \Hop\Validator\Validator\Nip::class,
 ];
