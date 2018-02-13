@@ -127,6 +127,20 @@ class StdValidatorTest extends TestCase
 
         $this->assertTrue($this->validator->isValid($input, $strategyMock));
         $this->assertCount(0, $this->validator->getMessages($input, $strategyMock));
+
+        $input = [
+            'param' => null
+        ];
+
+        $this->assertTrue($this->validator->isValid($input, $strategyMock));
+        $this->assertCount(0, $this->validator->getMessages($input, $strategyMock));
+
+        $input = [
+            'param' => ''
+        ];
+
+        $this->assertTrue($this->validator->isValid($input, $strategyMock));
+        $this->assertCount(0, $this->validator->getMessages($input, $strategyMock));
     }
 
     public function test_requiredField()

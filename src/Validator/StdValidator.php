@@ -65,7 +65,7 @@ class StdValidator implements Validator
                 continue;
             }
 
-            if (!array_key_exists($field->fieldName(), $data) || $data[$field->fieldName()] === null) {
+            if ($this->detectEmpty($data, $field->fieldName())) {
                 if (!$field->required()) {
                     continue;
                 }
@@ -94,5 +94,27 @@ class StdValidator implements Validator
         }
 
         return $this->validators[$name];
+    }
+
+    /**
+     * @param array $data
+     * @param string $fieldName
+     * @return bool
+     */
+    private function detectEmpty(array $data, string $fieldName): bool
+    {
+        if (!array_key_exists($fieldName, $data)) {
+            return true;
+        }
+
+        if ($data[$fieldName] === null) {
+            return true;
+        }
+
+        if (\is_string($data[$fieldName]) && $data[$fieldName] === '') {
+            return true;
+        }
+
+        return false;
     }
 }
