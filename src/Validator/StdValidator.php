@@ -27,6 +27,10 @@ class StdValidator implements Validator
         $this->validators[$validatorName] = $validator;
     }
 
+    /**
+     * @param array $config
+     * @return StdValidator
+     */
     public static function fromConfig(array $config): self
     {
         $validator = new static;

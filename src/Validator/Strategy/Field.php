@@ -17,6 +17,11 @@ class Field
     private $validators = [];
 
     /**
+     * @var array
+     */
+    private $filters = [];
+
+    /**
      * @var bool
      */
     private $required;
@@ -81,5 +86,22 @@ class Field
     public function condition(): ?callable
     {
         return $this->condition;
+    }
+
+    /**
+     * @param string $name
+     * @param array|null $options
+     */
+    public function registerFilter(string $name, ?array $options): void
+    {
+        $this->filters[$name] = $options;
+    }
+
+    /**
+     * @return array
+     */
+    public function filters(): array
+    {
+        return $this->filters;
     }
 }
