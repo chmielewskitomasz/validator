@@ -10,4 +10,5 @@ return [
     'Email' => \Hop\Validator\Validator\Email::class,
     'Uuid' => \Hop\Validator\Validator\Uuid::class,
     'Nip' => \Hop\Validator\Validator\Nip::class,
+    'InArray' => \Hop\Validator\Validator\InArray::class,
 ];
