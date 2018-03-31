@@ -13,8 +13,8 @@ class Range implements RuleValidator
      */
     public function getMessage($value, ?array $options): ?string
     {
-        if (!is_scalar($value)) {
-            throw new \InvalidArgumentException('Param must be a scalar value');
+        if (!\is_scalar($value)) {
+            return 'Param must be a scalar value';
         }
 
         if ($options === null || (!isset($options['min']) && !isset($options['max']))) {

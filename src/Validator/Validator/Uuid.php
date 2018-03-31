@@ -13,8 +13,8 @@ class Uuid implements RuleValidator
      */
     public function getMessage($value, ?array $options): ?string
     {
-        if (!is_scalar($value)) {
-            throw new \InvalidArgumentException('Param must be a scalar value');
+        if (!\is_scalar($value)) {
+            return 'Param is not scalar';
         }
 
         if (!preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', (string)$value)) {
