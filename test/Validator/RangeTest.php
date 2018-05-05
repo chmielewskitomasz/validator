@@ -27,11 +27,7 @@ class RangeTest extends TestCase
 
     public function test_notScalar()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->length->isValid(new \stdClass(), null);
-
-        $this->expectException(\InvalidArgumentException::class);
-        $this->length->getMessage(new \stdClass(), null);
+        $this->assertFalse($this->length->isValid(new \stdClass(), null));
     }
 
     public function test_lackOptions()
