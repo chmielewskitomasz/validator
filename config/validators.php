@@ -11,4 +11,5 @@ return [
     'Uuid' => \Hop\Validator\Validator\Uuid::class,
     'Nip' => \Hop\Validator\Validator\Nip::class,
     'InArray' => \Hop\Validator\Validator\InArray::class,
+    'DateTime' => \Hop\Validator\Validator\DateTime::class,
 ];
