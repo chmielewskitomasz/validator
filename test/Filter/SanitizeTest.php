@@ -30,4 +30,10 @@ class SanitizeTest extends TestCase
         $string = '<tag>Tag</tag>"';
         $this->assertEquals('Tag"', $this->filter->filter($string, null));
     }
+
+    public function test_receiveBoolIfBool(): void
+    {
+        $this->assertEquals(true, $this->filter->filter(true, null));
+        $this->assertEquals(false, $this->filter->filter(false, null));
+    }
 }
