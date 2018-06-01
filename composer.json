@@ -1,19 +1,20 @@
 {
   "name": "chmielewskitomasz/validator",
-  "description": "Simple validation tool",
+  "description": "Simple validation tool, allows you to validate both simple and nested structures, introduces conditional fields. All you need is here. Perfect for REST endpoint validation. No dependencies required.",
   "type": "project",
   "config": {
     "sort-packages": true,
     "bin-dir": "bin"
   },
   "require": {
-    "php": "^7.1",
-    "friendsofphp/php-cs-fixer": "^2.8"
+    "php": "^7.1"
   },
   "require-dev": {
     "phpspec/phpspec": "^4.3",
     "phpunit/phpunit": "^6.0.8 || ^5.7.15",
-    "squizlabs/php_codesniffer": "^2.8.1"
+    "squizlabs/php_codesniffer": "^2.8.1",
+    "friendsofphp/php-cs-fixer": "^2.8",
+    "phpstan/phpstan": "^0.9.2"
   },
   "autoload": {
     "psr-4": {
@@ -27,6 +28,7 @@
   },
   "scripts": {
     "cs-fix": "php-cs-fixer fix -v --config=.php_cs.dist",
+    "stan": "phpstan analyze -c phpstan.neon src/",
     "test": "phpunit --colors=always",
     "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
   }

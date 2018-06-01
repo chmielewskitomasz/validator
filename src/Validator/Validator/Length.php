@@ -8,7 +8,7 @@ class Length implements RuleValidator
 {
     use IsValidTrait;
 
-    public function getMessage($value, ?array $options): ?string
+    public function getMessage($value, ?array $options)
     {
         if (!\is_scalar($value)) {
             return 'Param must be a scalar value';

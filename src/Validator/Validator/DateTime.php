@@ -11,7 +11,7 @@ class DateTime implements RuleValidator
     /**
      * @inheritdoc
      */
-    public function getMessage($value, ?array $options): ?string
+    public function getMessage($value, ?array $options)
     {
         if (!\preg_match('/^\d{4}\-\d{2}\-\d{2} \d{2}\:\d{2}\:\d{2}$/', (string)$value)) {
             return 'Value is not a datetime';

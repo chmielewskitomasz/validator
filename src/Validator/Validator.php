@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace Hop\Validator;
 
+use Hop\Validator\Message\MessagesAggregate;
+use Hop\Validator\Message\MessagesContainer;
 use Hop\Validator\Strategy\Strategy;
 
 interface Validator
@@ -18,7 +20,7 @@ interface Validator
     /**
      * @param array $data
      * @param Strategy $strategy
-     * @return Messages
+     * @return \Hop\Validator\Message\MessagesContainer
      */
-    public function getMessages(array $data, Strategy $strategy): Messages;
+    public function getMessages(array $data, Strategy $strategy): MessagesContainer;
 }

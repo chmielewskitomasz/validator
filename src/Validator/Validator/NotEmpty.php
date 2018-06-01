@@ -8,7 +8,7 @@ class NotEmpty implements RuleValidator
 {
     use IsValidTrait;
 
-    public function getMessage($value, ?array $options): ?string
+    public function getMessage($value, ?array $options)
     {
         if ((string)$value === '') {
             return 'Value must not be empty';

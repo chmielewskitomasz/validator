@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Hop\Validator\Strategy;
 
-class Field
+class Field implements FieldInterface
 {
     /**
      * @var string
@@ -32,6 +32,11 @@ class Field
     private $condition;
 
     /**
+     * @var bool
+     */
+    private $isArray = false;
+
+    /**
      * Field constructor.
      * @param string $fieldName
      * @param bool $required
@@ -50,10 +55,22 @@ class Field
     /**
      * @param string $name
      * @param array|null $options
+     * @return Field
      */
-    public function registerValidator(string $name, ?array $options): void
+    public function registerValidator(string $name, ?array $options): self
     {
         $this->validators[$name] = $options;
+        return $this;
+    }
+
+    /**
+     * @param bool $isArray
+     * @return Field
+     */
+    public function setIsArray(bool $isArray): self
+    {
+        $this->isArray = $isArray;
+        return $this;
     }
 
     /**
@@ -91,10 +108,12 @@ class Field
     /**
      * @param string $name
      * @param array|null $options
+     * @return Field
      */
-    public function registerFilter(string $name, ?array $options): void
+    public function registerFilter(string $name, ?array $options): self
     {
         $this->filters[$name] = $options;
+        return $this;
     }
 
     /**
@@ -103,5 +122,13 @@ class Field
     public function filters(): array
     {
         return $this->filters;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isArray(): bool
+    {
+        return $this->isArray;
     }
 }

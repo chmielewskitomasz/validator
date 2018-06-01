@@ -11,7 +11,7 @@ class Uuid implements RuleValidator
     /**
      * @inheritdoc
      */
-    public function getMessage($value, ?array $options): ?string
+    public function getMessage($value, ?array $options)
     {
         if (!\is_scalar($value)) {
             return 'Param is not scalar';

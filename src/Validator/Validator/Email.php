@@ -8,7 +8,7 @@ class Email implements RuleValidator
 {
     use IsValidTrait;
 
-    public function getMessage($value, ?array $options): ?string
+    public function getMessage($value, ?array $options)
     {
         if (!\is_string($value)) {
             return 'Param must be a string value';

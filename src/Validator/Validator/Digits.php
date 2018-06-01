@@ -11,7 +11,7 @@ class Digits implements RuleValidator
     /**
      * @inheritdoc
      */
-    public function getMessage($value, ?array $options): ?string
+    public function getMessage($value, ?array $options)
     {
         if (!preg_match('/^\d+$/', (string)$value)) {
             return 'Value is not a number';

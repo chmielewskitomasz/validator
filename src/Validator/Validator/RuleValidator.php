@@ -7,7 +7,7 @@ namespace Hop\Validator\Validator;
 interface RuleValidator
 {
     /**
-     * @param $value
+     * @param mixed $value
      * @param array|null $options
      * @return bool
      * @throws \InvalidArgumentException
@@ -15,10 +15,9 @@ interface RuleValidator
     public function isValid($value, ?array $options): bool;
 
     /**
-     * @param $value
+     * @param mixed $value
      * @param array|null $options
-     * @return string|null
      * @throws \InvalidArgumentException
      */
-    public function getMessage($value, ?array $options): ?string;
+    public function getMessage($value, ?array $options);
 }

@@ -20,12 +20,12 @@ class InArrayTest extends TestCase
         $this->inArray = new InArray();
     }
 
-    public function test_instanceOf()
+    public function test_instanceOf(): void
     {
         $this->assertInstanceOf(RuleValidator::class, $this->inArray);
     }
 
-    public function test_lackOfOption()
+    public function test_lackOfOption(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->inArray->isValid('test', null);
@@ -40,13 +40,13 @@ class InArrayTest extends TestCase
         $this->inArray->getMessage('test', []);
     }
 
-    public function test_invalid()
+    public function test_invalid(): void
     {
         $this->assertNotNull($this->inArray->getMessage('test', ['haystack' => ['one', 'two']]));
         $this->assertFalse($this->inArray->isValid('test', ['haystack' => ['one', 'two']]));
     }
 
-    public function test_valid()
+    public function test_valid(): void
     {
         $this->assertNull($this->inArray->getMessage('one', ['haystack' => ['one', 'two']]));
         $this->assertTrue($this->inArray->isValid('one', ['haystack' => ['one', 'two']]));

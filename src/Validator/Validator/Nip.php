@@ -11,7 +11,7 @@ class Nip implements RuleValidator
     /**
      * @inheritdoc
      */
-    public function getMessage($value, ?array $options): ?string
+    public function getMessage($value, ?array $options)
     {
         if (!preg_match('/^[a-z]{2}\d{10}$/i', (string)$value)) {
             return 'Pattern does not match polish NIP';

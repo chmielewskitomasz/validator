@@ -11,7 +11,7 @@ namespace Hop\Validator\Filter;
 interface RuleFilter
 {
     /**
-     * @param $value
+     * @param mixed $value
      * @param array|null $options
      * @return mixed
      */

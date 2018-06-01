@@ -11,7 +11,7 @@ class Range implements RuleValidator
     /**
      * @inheritdoc
      */
-    public function getMessage($value, ?array $options): ?string
+    public function getMessage($value, ?array $options)
     {
         if (!\is_scalar($value)) {
             return 'Param must be a scalar value';

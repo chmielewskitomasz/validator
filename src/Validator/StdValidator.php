@@ -4,7 +4,13 @@ declare(strict_types = 1);
 
 namespace Hop\Validator;
 
+use Hop\Validator\Message\MessageInterface;
+use Hop\Validator\Message\FieldMessage;
+use Hop\Validator\Message\MessagesContainer;
+use Hop\Validator\Strategy\Field;
+use Hop\Validator\Strategy\FieldInterface;
 use Hop\Validator\Strategy\Strategy;
+use Hop\Validator\Strategy\StructureField;
 use Hop\Validator\Validator\RuleValidator;
 
 /**
@@ -57,12 +63,11 @@ class StdValidator implements Validator
     /**
      * @param array $data
      * @param Strategy $strategy
-     * @return Messages
-     * @throws \InvalidArgumentException
+     * @return \Hop\Validator\Message\MessagesContainer
      */
-    public function getMessages(array $data, Strategy $strategy): Messages
+    public function getMessages(array $data, Strategy $strategy): MessagesContainer
     {
-        $messages = new Messages;
+        $messages = new MessagesContainer();
 
         foreach ($strategy->getFields() as $field) {
             if ($field->condition() !== null && !$field->condition()($data)) {
@@ -73,15 +78,15 @@ class StdValidator implements Validator
                 if (!$field->required()) {
                     continue;
                 }
-                $messages->attachMessage($field->fieldName(), new Message('NotEmpty', 'Value is required and cannot be empty'));
+                $messages->attachMessage($field->fieldName(), (new FieldMessage())->attachMessage('NotEmpty', 'Value cannot be empty'));
             }
 
-            foreach ($field->validators() as $validatorName => $options) {
-                $ruleValidator = $this->getRuleValidator($validatorName);
-                if (!$ruleValidator->isValid($data[$field->fieldName()], $options)) {
-                    $messages->attachMessage($field->fieldName(), new Message($validatorName, $ruleValidator->getMessage($data[$field->fieldName()], $options)));
-                }
-            }
+            $messages->attachMessage(
+                $field->fieldName(),
+                $field->isArray() ?
+                    $this->processArrayField($field, $data[$field->fieldName()]) :
+                    $this->processSingleField($data[$field->fieldName()], $field)
+            );
         }
         return $messages;
     }
@@ -120,5 +125,51 @@ class StdValidator implements Validator
         }
 
         return false;
+    }
+
+    private function processSingleField($row, FieldInterface $field): MessageInterface
+    {
+        // TODO introduce policies/strategies if required
+        // for now it might be overengineering
+        switch (true) {
+            case $field instanceof Field:
+                return $this->processField($field, $row);
+                break;
+            case $field instanceof StructureField:
+                return $this->processStructureField($field, $row);
+                break;
+            default:
+                throw new \DomainException('Unknown field type');
+        }
+    }
+
+    private function processStructureField(StructureField $field, $data): MessageInterface
+    {
+        return $this->getMessages($data, $field->strategy());
+    }
+
+    private function processField(Field $field, $row): FieldMessage
+    {
+        $messages = new FieldMessage();
+        foreach ($field->validators() as $validatorName => $options) {
+            $ruleValidator = $this->getRuleValidator($validatorName);
+            if (!$ruleValidator->isValid($row, $options)) {
+                $messages->attachMessage($validatorName, $ruleValidator->getMessage($row, $options));
+            }
+        }
+        return $messages;
+    }
+
+    private function processArrayField(FieldInterface $field, $data) : MessageInterface
+    {
+        $messages = new MessagesContainer();
+        if (!\is_array($data)) {
+            return (new FieldMessage())->attachMessage('NotArray', 'Value is not an array');
+        }
+
+        foreach ($data as $index => $row) {
+            $messages->attachMessage((string)$index, $this->processSingleField($row, $field));
+        }
+        return $messages;
     }
 }

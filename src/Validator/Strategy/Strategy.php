@@ -7,7 +7,7 @@ namespace Hop\Validator\Strategy;
 interface Strategy
 {
     /**
-     * @return Field[]
+     * @return FieldInterface[]
      */
     public function getFields(): array;
 }
