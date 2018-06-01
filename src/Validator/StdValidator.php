@@ -86,7 +86,7 @@ class StdValidator implements Validator
                 $field->fieldName(),
                 $field->isArray() ?
                     $this->processArrayField($field, $data[$field->fieldName()]) :
-                    $this->processSingleField($data[$field->fieldName()], $field)
+                    $this->processSingleField(@$data[$field->fieldName()], $field)
             );
         }
         return $messages;

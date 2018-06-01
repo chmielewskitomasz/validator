@@ -17,4 +17,11 @@ trait IsValidTrait
     {
         return $this->getMessage($value, $options) === null;
     }
+
+    /**
+     * @param mixed $value
+     * @param array|null $options
+     * @return mixed
+     */
+    abstract public function getMessage($value, ?array $options);
 }

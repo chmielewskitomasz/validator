@@ -8,7 +8,7 @@ final class ArrayKeys implements RuleFilter
 {
     public function filter($value, ?array $options)
     {
-        if (!\is_array($value)) {
+        if (!\is_array($value) || $options === null) {
             return $value;
         }
 
