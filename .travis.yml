@@ -7,7 +7,4 @@ php:
   install:
    - composer install --no-interaction --prefer-source
 
-  script:
-   - composer test
-   - composer stan
-   - bin/php-cs-fixer fix --config=.php_cs.dist  -vv --dry-run --stop-on-violation
+  script: composer test
