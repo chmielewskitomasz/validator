@@ -9,3 +9,5 @@ install:
 
 script:
   - composer test
+  - composer stan
+  - bin/php-cs-fixer fix --config=.php_cs.dist  -vv --dry-run --stop-on-violation
