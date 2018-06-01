@@ -54,4 +54,9 @@ class UuidTest extends TestCase
             $this->assertNotNull($this->uuid->getMessage($invalidUuid, null));
         }
     }
+
+    public function test_notScalar(): void
+    {
+        $this->assertFalse($this->uuid->isValid(new \stdClass(), null));
+    }
 }

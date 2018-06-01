@@ -9,6 +9,7 @@ use Hop\Validator\StdFilter;
 use Hop\Validator\Strategy\Field;
 use Hop\Validator\Strategy\Strategy;
 use Hop\Validator\Strategy\StructureField;
+use Hop\Validator\Validator\Email;
 use PHPUnit\Framework\TestCase;
 
 class StdFilterTest extends TestCase
@@ -39,6 +40,17 @@ class StdFilterTest extends TestCase
     public function test_instanceOf()
     {
         $this->assertInstanceOf(Filter::class, $this->filter);
+    }
+
+    public function test_fromConfig(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        StdFilter::fromConfig([
+            'filter' => 'NotExistingFilter'
+        ]);
+        $this->assertInstanceOf(StdFilter::class, StdFilter::fromConfig([
+            'Email' => Filter\Sanitize::class
+        ]));
     }
 
     public function test_registerRule()

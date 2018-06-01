@@ -49,6 +49,17 @@ class StdValidatorTest extends TestCase
         });
     }
 
+    public function test_fromConfig(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        StdValidator::fromConfig([
+            'filter' => 'NotExistingValidator'
+        ]);
+        $this->assertInstanceOf(StdValidator::class, StdValidator::fromConfig([
+            'Email' => Validator\Email::class
+        ]));
+    }
+
     public function test_passesValidation(): void
     {
         $strategyMock = $this->createMock(Strategy::class);

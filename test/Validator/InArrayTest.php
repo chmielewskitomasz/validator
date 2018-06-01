@@ -29,15 +29,18 @@ class InArrayTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->inArray->isValid('test', null);
+    }
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->inArray->getMessage('test', null);
-
+    public function test_lackOfOptionArray(): void
+    {
         $this->expectException(\InvalidArgumentException::class);
         $this->inArray->isValid('test', []);
+    }
 
+    public function test_lackOfOptionHaystack(): void
+    {
         $this->expectException(\InvalidArgumentException::class);
-        $this->inArray->getMessage('test', []);
+        $this->inArray->isValid('test', ['haystack' => []]);
     }
 
     public function test_invalid(): void

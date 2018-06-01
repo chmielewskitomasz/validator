@@ -57,4 +57,14 @@ class EmailTest extends TestCase
             $this->assertNotNull($this->email->getMessage($invalidAddress, null));
         }
     }
+
+    public function test_invalidValue(): void
+    {
+        $this->assertFalse($this->email->isValid(true, null));
+    }
+
+    public function test_notString(): void
+    {
+        $this->assertFalse($this->email->isValid(123, null));
+    }
 }
