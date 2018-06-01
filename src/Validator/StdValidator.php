@@ -136,16 +136,11 @@ class StdValidator implements Validator
                 return $this->processField($field, $row);
                 break;
             case $field instanceof StructureField:
-                return $this->processStructureField($field, $row);
+                return $this->getMessages($row, $field->strategy());
                 break;
             default:
                 throw new \DomainException('Unknown field type');
         }
-    }
-
-    private function processStructureField(StructureField $field, $data): MessageInterface
-    {
-        return $this->getMessages($data, $field->strategy());
     }
 
     private function processField(Field $field, $row): FieldMessage

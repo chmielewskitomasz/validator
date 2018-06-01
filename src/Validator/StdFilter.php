@@ -5,7 +5,10 @@ declare(strict_types = 1);
 namespace Hop\Validator;
 
 use Hop\Validator\Filter\RuleFilter;
+use Hop\Validator\Strategy\Field;
+use Hop\Validator\Strategy\FieldInterface;
 use Hop\Validator\Strategy\Strategy;
+use Hop\Validator\Strategy\StructureField;
 
 /**
  * Class StdFilter
@@ -49,10 +52,9 @@ class StdFilter implements Filter
                 continue;
             }
 
-            $filtered[$fieldName] = $data[$fieldName];
-            foreach ($field->filters() as $filter => $options) {
-                $filtered[$fieldName] = $this->getRuleFilter($filter)->filter($filtered[$fieldName], $options);
-            }
+            $filtered[$fieldName] = $field->isArray() ?
+                $this->filterArray($field, $data[$fieldName]) :
+                $this->filterSingle($field, $data[$fieldName]);
         }
         return $filtered;
     }
@@ -77,5 +79,44 @@ class StdFilter implements Filter
             throw new \InvalidArgumentException(sprintf('Filter %s not found', $filterName));
         }
         return $this->filters[$filterName];
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param mixed $data
+     * @return mixed
+     */
+    private function filterArray(FieldInterface $field, $data)
+    {
+        if (!\is_array($data)) {
+            return $data;
+        }
+        $array = [];
+        foreach ($data as $index => $row) {
+            $array[$index] = $this->filterSingle($field, $row);
+        }
+        return $array;
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param mixed $data
+     * @return mixed
+     */
+    private function filterSingle(FieldInterface $field, $data)
+    {
+        switch (true) {
+            case $field instanceof Field:
+                foreach ($field->filters() as $filter => $options) {
+                    $data = $this->getRuleFilter($filter)->filter($data, $options);
+                }
+                return $data;
+                break;
+            case $field instanceof StructureField:
+                return $this->filter($data, $field->strategy());
+                break;
+            default:
+                throw new \DomainException('Unknown field type');
+        }
     }
 }

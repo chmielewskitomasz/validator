@@ -8,6 +8,7 @@ use Hop\Validator\Filter;
 use Hop\Validator\StdFilter;
 use Hop\Validator\Strategy\Field;
 use Hop\Validator\Strategy\Strategy;
+use Hop\Validator\Strategy\StructureField;
 use PHPUnit\Framework\TestCase;
 
 class StdFilterTest extends TestCase
@@ -34,7 +35,7 @@ class StdFilterTest extends TestCase
             }
         });
     }
-    
+
     public function test_instanceOf()
     {
         $this->assertInstanceOf(Filter::class, $this->filter);
@@ -79,5 +80,143 @@ class StdFilterTest extends TestCase
 
         $filtered = $this->filter->filter($data, $strategy);
         $this->assertEquals(['string1' => 'tag', 'string2' => 'Nothing happened'], $filtered);
+    }
+
+    public function test_filterArray(): void
+    {
+        $data = [
+            'string1' => [
+                '<tag>TAG</tag>',
+                '<strong>Tag</strong>',
+            ],
+            'string2' => [
+                'Nothing happened'
+            ]
+        ];
+
+        $strategy = new class implements Strategy {
+            public function getFields(): array
+            {
+                $field1 = new Field('string1', true, null);
+                $field1->registerFilter('tolower', null);
+                $field1->registerFilter('striptags', null);
+                $field1->setIsArray(true);
+
+                $field2 = new Field('string2', true, null);
+                $field2->setIsArray(true);
+
+                return [
+                    $field1, $field2
+                ];
+            }
+        };
+
+        $filtered = $this->filter->filter($data, $strategy);
+        $this->assertEquals([
+            'string1' => ['tag', 'tag'],
+            'string2' => ['Nothing happened']
+        ], $filtered);
+    }
+
+    public function test_nested(): void
+    {
+        $data = [
+            'nested' => [
+                'string1' => '<tag>TAG</tag>',
+                'string2' => 'Nothing happened'
+        ]];
+
+        $strategy = new class implements Strategy {
+            public function getFields(): array
+            {
+                $field1 = new Field('string1', true, null);
+                $field1->registerFilter('tolower', null);
+                $field1->registerFilter('striptags', null);
+
+                $field2 = new Field('string2', true, null);
+
+                return [
+                    $field1, $field2
+                ];
+            }
+        };
+
+        $structureField = new StructureField('nested', true, null, false, $strategy);
+        $nestedStrategy = $this->createMock(Strategy::class);
+        $nestedStrategy->method('getFields')
+            ->willReturn([$structureField]);
+
+        $filtered = $this->filter->filter($data, $nestedStrategy);
+        $this->assertEquals([
+            'nested' => [
+                'string1' => 'tag',
+                'string2' => 'Nothing happened'
+            ]], $filtered);
+    }
+
+    public function test_nestedArray(): void
+    {
+        $data = [
+            'nested' => [[
+                'string1' => [
+                    '<tag>TAG</tag>',
+                    '<strong>Tag</strong>',
+                ],
+                'string2' => [
+                    'Nothing happened'
+                ]
+            ], 3 => [
+                'string1' => [
+                    '<tag>ZZZzz</tag>',
+                    '<strong>aaSSS</strong>',
+                ],
+                'string2' => [
+                    'Nothing happened'
+                ]
+            ]]
+        ];
+
+        $strategy = new class implements Strategy {
+            public function getFields(): array
+            {
+                $field1 = new Field('string1', true, null);
+                $field1->registerFilter('tolower', null);
+                $field1->registerFilter('striptags', null);
+                $field1->setIsArray(true);
+
+                $field2 = new Field('string2', true, null);
+                $field2->setIsArray(true);
+
+                return [
+                    $field1, $field2
+                ];
+            }
+        };
+
+        $structureField = new StructureField('nested', true, null, true, $strategy);
+        $nestedStrategy = $this->createMock(Strategy::class);
+        $nestedStrategy->method('getFields')
+            ->willReturn([$structureField]);
+
+        $filtered = $this->filter->filter($data, $nestedStrategy);
+        $this->assertEquals([
+            'nested' => [[
+                'string1' => [
+                    'tag',
+                    'tag',
+                ],
+                'string2' => [
+                    'Nothing happened'
+                ]
+            ], 3 => [
+                'string1' => [
+                    'zzzzz',
+                    'aasss',
+                ],
+                'string2' => [
+                    'Nothing happened'
+                ]
+            ]]
+        ], $filtered);
     }
 }

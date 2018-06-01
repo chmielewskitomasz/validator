@@ -1,0 +1,13 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+
+  install:
+   - composer install --no-interaction --prefer-source
+
+  script:
+   - composer test
+   - composer stan
+   - bin/php-cs-fixer fix --config=.php_cs.dist  -vv --dry-run --stop-on-violation

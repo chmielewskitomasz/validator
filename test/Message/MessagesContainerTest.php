@@ -72,7 +72,6 @@ final class MessagesContainerTest extends TestCase
         $this->messagesContainer->attachMessage('next2', $messagesContainer);
 
         $this->assertEquals(5, $this->messagesContainer->count());
-
     }
 
     public function test_merge(): void

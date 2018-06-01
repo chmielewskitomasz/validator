@@ -84,7 +84,8 @@ class MessagesContainer implements MessageInterface, \Countable, \IteratorAggreg
 
         $cloned = clone $this;
         foreach ($message->getMessages() as $index => $mergeMessage) {
-            if (null === ($foundMessage = $cloned->findByIndex($index))) {
+            $foundMessage = $cloned->findByIndex($index);
+            if ($foundMessage === null) {
                 $cloned->attachMessage($index, $mergeMessage);
                 continue;
             }
