@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Hop\Validator;
 
-use Hop\Validator\Message\MessagesAggregate;
 use Hop\Validator\Message\MessagesContainer;
 use Hop\Validator\Strategy\Strategy;
 

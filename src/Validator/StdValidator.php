@@ -135,10 +135,8 @@ class StdValidator implements Validator
         switch (true) {
             case $field instanceof Field:
                 return $this->processField($field, $row);
-                break;
             case $field instanceof StructureField:
                 return $this->getMessages($row, $field->strategy());
-                break;
             default:
                 throw new \DomainException('Unknown field type');
         }

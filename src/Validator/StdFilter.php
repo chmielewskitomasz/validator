@@ -111,10 +111,8 @@ class StdFilter implements Filter
                     $data = $this->getRuleFilter($filter)->filter($data, $options);
                 }
                 return $data;
-                break;
             case $field instanceof StructureField:
                 return $this->filter($data, $field->strategy());
-                break;
             default:
                 throw new \DomainException('Unknown field type');
         }
