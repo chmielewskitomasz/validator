@@ -78,6 +78,7 @@ class StdValidator implements Validator
                 if (!$field->required()) {
                     continue;
                 }
+
                 $messages->attachMessage($field->fieldName(), (new FieldMessage())->attachMessage('NotEmpty', 'Value cannot be empty'));
             }
 
