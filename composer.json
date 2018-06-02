@@ -2,6 +2,7 @@
   "name": "chmielewskitomasz/validator",
   "description": "Simple validation tool, allows you to validate both simple and nested structures, introduces conditional fields. All you need is here. Perfect for REST endpoint validation. No dependencies required.",
   "type": "project",
+  "license": "MIT",
   "config": {
     "sort-packages": true,
     "bin-dir": "bin"
