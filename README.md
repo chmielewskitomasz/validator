@@ -3,7 +3,10 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/chmielewskitomasz/validator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/chmielewskitomasz/validator/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/chmielewskitomasz/validator/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/chmielewskitomasz/validator/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/chmielewskitomasz/validator/badges/build.png?b=master)](https://scrutinizer-ci.com/g/chmielewskitomasz/validator/build-status/master)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/chmielewskitomasz/validator/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+[![Latest Stable Version](https://poser.pugx.org/chmielewskitomasz/validator/v/stable)](https://packagist.org/packages/chmielewskitomasz/validator)
+[![License](https://poser.pugx.org/chmielewskitomasz/validator/license)](https://packagist.org/packages/chmielewskitomasz/validator)
+
+[![Donate on PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/chmielewskitomasz)
 
 #### How to install it?
 
