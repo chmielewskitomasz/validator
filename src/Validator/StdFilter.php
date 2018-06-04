@@ -112,6 +112,9 @@ class StdFilter implements Filter
                 }
                 return $data;
             case $field instanceof StructureField:
+                if (!\is_array($data)) {
+                    return $data;
+                }
                 return $this->filter($data, $field->strategy());
             default:
                 throw new \DomainException('Unknown field type');
