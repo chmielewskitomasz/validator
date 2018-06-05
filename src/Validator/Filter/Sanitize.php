@@ -17,7 +17,7 @@ class Sanitize implements RuleFilter
      */
     public function filter($value, ?array $options)
     {
-        if (\is_bool($value)) {
+        if (\is_bool($value) || null === $value) {
             return $value;
         }
         return \filter_var($value, \FILTER_SANITIZE_STRING, \FILTER_FLAG_NO_ENCODE_QUOTES);
