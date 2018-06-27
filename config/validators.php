@@ -12,4 +12,5 @@ return [
     'Nip' => \Hop\Validator\Validator\Nip::class,
     'InArray' => \Hop\Validator\Validator\InArray::class,
     'DateTime' => \Hop\Validator\Validator\DateTime::class,
+    'RgbHex' => \Hop\Validator\Validator\Color\Rgb\Hex::class,
 ];
