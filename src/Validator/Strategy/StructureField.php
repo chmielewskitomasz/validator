@@ -36,7 +36,7 @@ final class StructureField implements FieldInterface
     /**
      * @var ConditionalStrategy[]
      */
-    private $conditionalStrategies;
+    private $conditionalStrategies = [];
 
     /**
      * StructureField constructor.
