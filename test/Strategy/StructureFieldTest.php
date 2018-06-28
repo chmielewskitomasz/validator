@@ -37,6 +37,63 @@ final class StructureFieldTest extends TestCase
         $this->assertTrue($this->field->required());
         $this->assertNull($this->field->condition());
         $this->assertFalse($this->field->isArray());
-        $this->assertInstanceOf(Strategy::class, $this->field->strategy());
+        $this->assertInstanceOf(Strategy::class, $this->field->strategy([]));
+    }
+
+    public function test_noStrategyNoConditions(): void
+    {
+        $field = new StructureField(
+            'someNestedField',
+            true,
+            null,
+            false,
+            null
+        );
+
+        $this->expectException(\RuntimeException::class);
+        $field->strategy([]);
+    }
+
+    public function test_noStrategyNotApplyingCondition(): void
+    {
+        $field = new StructureField(
+            'someNestedField',
+            true,
+            null,
+            false,
+            null
+        );
+
+        $field->registerConditionalStrategy(new StructureField\ConditionalStrategy($this->createMock(Strategy::class), function (): bool {
+            return false;
+        }));
+
+        $field->registerConditionalStrategy(new StructureField\ConditionalStrategy($this->createMock(Strategy::class), function (): bool {
+            return false;
+        }));
+
+        $this->expectException(\RuntimeException::class);
+        $field->strategy([]);
+    }
+
+    public function test_noStrategyApplyingCondition(): void
+    {
+        $field = new StructureField(
+            'someNestedField',
+            true,
+            null,
+            false,
+            null
+        );
+
+        $field->registerConditionalStrategy(new StructureField\ConditionalStrategy($this->createMock(Strategy::class), function (): bool {
+            return false;
+        }));
+
+        $field->registerConditionalStrategy(new StructureField\ConditionalStrategy($this->createMock(Strategy::class), function (): bool {
+            return true;
+        }));
+
+        $this->assertInstanceOf(Strategy::class, $field->strategy([]));
     }
 }

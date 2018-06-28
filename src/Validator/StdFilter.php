@@ -115,7 +115,7 @@ class StdFilter implements Filter
                 if (!\is_array($data)) {
                     return $data;
                 }
-                return $this->filter($data, $field->strategy());
+                return $this->filter($data, $field->strategy($data));
             default:
                 throw new \DomainException('Unknown field type');
         }

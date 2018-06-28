@@ -139,7 +139,8 @@ class StdValidator implements Validator
                 if ($row === null) {
                     return new MessagesContainer();
                 }
-                return $this->getMessages((array)$row, $field->strategy());
+                $data = (array)$row;
+                return $this->getMessages($data, $field->strategy($data));
             default:
                 throw new \DomainException('Unknown field type');
         }
