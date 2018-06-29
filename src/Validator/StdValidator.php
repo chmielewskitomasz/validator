@@ -80,6 +80,7 @@ class StdValidator implements Validator
                 }
 
                 $messages->attachMessage($field->fieldName(), (new FieldMessage())->attachMessage('NotEmpty', 'Value cannot be empty'));
+                continue;
             }
 
             $messages->attachMessage(

@@ -223,7 +223,7 @@ class StdValidatorTest extends TestCase
         $this->validator->registerRuleValidator('passes', $ruleValidatorMock);
 
         $this->assertFalse($this->validator->isValid($input, $strategyMock));
-        $this->assertCount(2, $this->validator->getMessages($input, $strategyMock));
+        $this->assertCount(1, $this->validator->getMessages($input, $strategyMock));
     }
 
     public function test_excludeCondition(): void
@@ -281,7 +281,7 @@ class StdValidatorTest extends TestCase
         $this->validator->registerRuleValidator('passes', $ruleValidatorMock);
 
         $this->assertFalse($this->validator->isValid($input, $strategyMock));
-        $this->assertCount(2, $this->validator->getMessages($input, $strategyMock));
+        $this->assertCount(1, $this->validator->getMessages($input, $strategyMock));
     }
 
     public function test_arrayField(): void
